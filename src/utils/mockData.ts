@@ -101,6 +101,78 @@ export const generateGenreTrendData = (): GenreTrendData[] => {
 };
 
 // Get iconic songs for a decade
+export interface GenreDistributionData {
+  genre: string;
+  count: number;
+}
+
+export interface PopularityDistributionData {
+  bin: string;
+  count: number;
+}
+
+export interface RegionData {
+  country: string;
+  dominantGenre: string;
+  popularity: number;
+  avgEnergy: number;
+  avgDanceability: number;
+  totalStreams: number;
+  topGenres: string[];
+}
+
+// Get genre distribution for filters
+export const getGenreDistribution = (filters: FilterState): GenreDistributionData[] => {
+  const genres = ["Pop", "Rock", "Hip-Hop", "Jazz", "Electronic", "R&B", "Classical", "Country"];
+  
+  return genres.map(genre => ({
+    genre,
+    count: Math.floor(Math.random() * 300) + 100,
+  })).sort((a, b) => b.count - a.count);
+};
+
+// Get popularity distribution for filters
+export const getPopularityDistribution = (filters: FilterState): PopularityDistributionData[] => {
+  const bins = ["0-10", "10-20", "20-30", "30-40", "40-50", "50-60", "60-70", "70-80", "80-90", "90-100"];
+  
+  return bins.map(bin => ({
+    bin,
+    count: Math.floor(Math.random() * 200) + 50,
+  }));
+};
+
+// Get region data for map
+export const getRegionData = (): RegionData[] => {
+  const countries = [
+    "USA", "Canada", "Mexico", "Brazil", "Argentina", "Colombia",
+    "UK", "Germany", "France", "Spain", "Italy", "Sweden",
+    "Japan", "South Korea", "India", "China",
+    "South Africa", "Nigeria", "Egypt",
+    "Australia", "New Zealand"
+  ];
+  
+  const genres = ["Pop", "Rock", "Hip-Hop", "Jazz", "Electronic", "R&B", "Classical"];
+  
+  return countries.map(country => {
+    const dominantGenre = genres[Math.floor(Math.random() * genres.length)];
+    const topGenres = [
+      dominantGenre,
+      genres[Math.floor(Math.random() * genres.length)],
+      genres[Math.floor(Math.random() * genres.length)]
+    ].filter((v, i, a) => a.indexOf(v) === i).slice(0, 3);
+    
+    return {
+      country,
+      dominantGenre,
+      popularity: Math.floor(Math.random() * 40) + 60,
+      avgEnergy: Math.random() * 0.3 + 0.5,
+      avgDanceability: Math.random() * 0.3 + 0.5,
+      totalStreams: Math.floor(Math.random() * 500000000) + 100000000,
+      topGenres,
+    };
+  });
+};
+
 export const getIconicSongsForDecade = (decade: number): IconicSong[] => {
   const songsByDecade: Record<number, IconicSong[]> = {
     1930: [
