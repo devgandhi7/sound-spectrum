@@ -3,8 +3,12 @@ import { Header } from "@/components/Header";
 import { FilterPanel } from "@/components/FilterPanel";
 import { EmotionScatter } from "@/components/visualizations/EmotionScatter";
 import { GenreTrends } from "@/components/visualizations/GenreTrends";
+import { GenreDistribution } from "@/components/visualizations/GenreDistribution";
+import { PopularityHistogram } from "@/components/visualizations/PopularityHistogram";
 import { DecadePanel } from "@/components/visualizations/DecadePanel";
 import { KPIMetrics } from "@/components/visualizations/KPIMetrics";
+import { GlobalGenreMap } from "@/components/visualizations/GlobalGenreMap";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export interface FilterState {
   decade: number;
@@ -39,18 +43,36 @@ const Index = () => {
 
         <KPIMetrics filters={filters} />
 
-        <FilterPanel filters={filters} setFilters={setFilters} />
+        <Tabs defaultValue="dashboard" className="w-full">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
+            <TabsTrigger value="dashboard">Emotion Dashboard</TabsTrigger>
+            <TabsTrigger value="map">Global Map</TabsTrigger>
+          </TabsList>
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-          <div className="xl:col-span-2">
-            <EmotionScatter filters={filters} />
-          </div>
-          <div>
-            <DecadePanel decade={filters.decade} />
-          </div>
-        </div>
+          <TabsContent value="dashboard" className="space-y-8">
+            <FilterPanel filters={filters} setFilters={setFilters} />
 
-        <GenreTrends filters={filters} />
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+              <div className="xl:col-span-2">
+                <EmotionScatter filters={filters} />
+              </div>
+              <div>
+                <DecadePanel decade={filters.decade} />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <GenreDistribution filters={filters} />
+              <PopularityHistogram filters={filters} />
+            </div>
+
+            <GenreTrends filters={filters} />
+          </TabsContent>
+
+          <TabsContent value="map" className="space-y-8">
+            <GlobalGenreMap />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
