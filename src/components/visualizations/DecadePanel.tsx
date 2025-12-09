@@ -15,7 +15,7 @@ export const DecadePanel = ({ decade }: DecadePanelProps) => {
       <div className="flex items-center gap-2 mb-6">
         <Sparkles className="w-5 h-5 text-primary" />
         <h2 className="text-2xl font-semibold">
-          Iconic Tracks: {decade}s
+          Your Sound in the {decade}s
         </h2>
       </div>
 
@@ -50,7 +50,12 @@ export const DecadePanel = ({ decade }: DecadePanelProps) => {
 
                 {song.insight && (
                   <p className="text-xs text-muted-foreground mt-3 italic">
-                    {song.insight}
+                    {song.insight && (
+  <p className="mt-4 text-sm font-medium text-primary">
+    “{song.insight}”
+  </p>
+)}
+
                   </p>
                 )}
               </div>
